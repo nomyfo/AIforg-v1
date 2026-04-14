@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "AIModel": {
+      "title": "AI Model",
+      "description": "A user-trained AI model configuration",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the model" },
+        "description": { "type": "string", "description": "Short description" },
+        "systemInstruction": { "type": "string", "description": "The base behavior of the model" },
+        "examples": { "type": "array", "description": "Training examples" },
+        "creatorId": { "type": "string", "description": "UID of the creator" },
+        "creatorName": { "type": "string", "description": "Display name of the creator" },
+        "createdAt": { "type": "number", "description": "Timestamp" },
+        "isPublic": { "type": "boolean", "description": "Whether it's shared with the community" },
+        "webAccessEnabled": { "type": "boolean", "description": "Whether web search is enabled" },
+        "deepThinkEnabled": { "type": "boolean", "description": "Whether auto-learning is enabled" },
+        "personalLaptopEnabled": { "type": "boolean", "description": "Whether code execution (VM) is enabled" },
+        "rating": { "type": "number", "description": "Average rating" },
+        "reviewCount": { "type": "number", "description": "Number of reviews" },
+        "downloads": { "type": "number", "description": "Number of downloads" }
+      },
+      "required": ["name", "systemInstruction", "creatorId", "createdAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A user review for an AI model",
+      "type": "object",
+      "properties": {
+        "modelId": { "type": "string", "description": "ID of the model being reviewed" },
+        "userId": { "type": "string", "description": "UID of the reviewer" },
+        "userName": { "type": "string", "description": "Display name of the reviewer" },
+        "rating": { "type": "number", "description": "Rating from 1 to 5" },
+        "comment": { "type": "string", "description": "Review text" },
+        "createdAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["modelId", "userId", "rating", "createdAt"]
+    },
+    "ChatSession": {
+      "title": "Chat Session",
+      "description": "A global chat session using community models",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "title": { "type": "string", "description": "Session title" },
+        "messages": { "type": "array", "description": "List of chat messages" },
+        "createdAt": { "type": "number", "description": "Timestamp" },
+        "updatedAt": { "type": "number", "description": "Last update timestamp" }
+      },
+      "required": ["userId", "messages", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/models/{modelId}": {
+      "schema": "AIModel",
+      "description": "Collection of AI models"
+    },
+    "/models/{modelId}/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Subcollection of reviews for a model"
+    },
+    "/chats/{chatId}": {
+      "schema": "ChatSession",
+      "description": "Global chat sessions"
+    }
+  }
+}
